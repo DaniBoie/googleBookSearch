@@ -5,35 +5,28 @@ const { Book } = require('../models')
 router.get('/book/:search', (req, res) => {
   axios.get(`https://www.googleapis.com/books/v1/volumes?q=${req.params.search}`)
     .then(( data ) => {
-    // data.Search.map(book => ({
-    //   title: book.Title,
-    //   year: book.Year,
-    //   imdbID: book.imdbID,
-    //   type: book.Type,
-    //   poster: book.Poster
-    // }))
+    let coverImg
     let books = []
     let bookData = data.data.items
       bookData.forEach(book => {
         let bookInfo = book.volumeInfo
+        if (bookInfo.imageLinks !== undefined) {
+          coverImg = bookInfo.imageLinks.thumbnail
+        } else {
+          coverImg = 'https://rimatour.com/wp-content/uploads/2017/09/No-image-found.jpg'
+        }
         let bookData = {
           title: bookInfo.title,
           authors: bookInfo.authors,
           description: bookInfo.description,
-          image: bookInfo.imageLinks.thumbnail,
-          link: bookInfo.infoLink
+          image: coverImg,
+          id: book.id
         }
         books.push(bookData)
       });
-      console.log(books)
+      // console.log(books)
       res.send(books)
     })
-  //   .then(apiBook => Book.find()
-  //     .then(book => apiBook.filter(data =>
-  //       book.every(dbData => dbData.imdbID !== data.imdbID))))
-  //   .then(book => res.json(book))
-  //   .catch(err => console.log(err))
-  console.log('hello')
 })
-  // & key=AIzaSyAPfD92Yx3Us5nPxqumhj2c6PLfK2W7Zg0
+
 module.exports = router

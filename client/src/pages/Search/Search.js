@@ -1,6 +1,5 @@
 import MediaContext from '../../utils/MediaContext'
 import React, {useState} from 'react'
-import Form from '../../components/Form'
 import BookCard from '../../components/BookCard'
 import API from '../../utils/API'
 import Typography from '@material-ui/core/Typography';
@@ -38,13 +37,14 @@ const Home = () => {
   }
 
   //STUDY!
-  bookState.handleSaveMedia = imdbID => {
-    const saveBook = bookState.books.filter(x => x.imdbID === imdbID)[0]
+  bookState.handleSaveBook = (id) => {
+    const saveBook = bookState.books.filter(x => x.id === id)[0]
     API.saveBook(saveBook)
-    .then(() => {
-      const books = bookState.books.filter(x => x.imdbID !== imdbID)
+    .then((data) => {
+      const books = bookState.books.filter(x => x.id !== id)
       setbookState({ ...bookState, books})
     })
+    console.log("Saving book!")
   }
 
   return (
