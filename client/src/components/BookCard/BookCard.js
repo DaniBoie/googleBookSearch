@@ -1,34 +1,31 @@
 import React, { useContext } from 'react'
+import MediaContext from '../../utils/MediaContext'
+import Button from '@material-ui/core/Button';
+import SearchIcon from '@material-ui/icons/Search'
 
-const BookCard = () => {
+const BookCard = (props) => {
 
-  const { search, handleInputChange, handleSearchOMDB } = useContext(MediaContext)
+  const { handleSaveBook, handleFindBook} = useContext(MediaContext)
 
   return (
-
     <>
-      <hr />
-      <Typography variant="h6">
-        Movie/TV Search
-          </Typography>
-      <MediaContext.Provider value={mediaState}>
-        <Form />
-        {
-          mediaState.media.length > 0 ? (
-            mediaState.media.map(media => (
-              <div key={media.title}>
-                <img src={media.img} alt={media.title} />
-                <h3>{media.title}</h3>
-                <h4>Type: {media.type}</h4>
-                <h4>Year: {media.year}</h4>
-                <h5>OMDB ID: {media.imdbID}</h5>
-                <button onClick={() => mediaState.handleSaveMedia(media.imdbID)}>Save</button>
-              </div>
-            ))
-          ) : null
-
-        }
-      </MediaContext.Provider>
+      <div key={props.book.title}>
+        <img src={props.book.image} alt={props.book.title} />
+        <h3>{props.book.title}</h3>
+        <h4>Type: {props.book.authors}</h4>
+        <h4>Year: {props.book.description}</h4>
+        <h5>Book ID: {props.book.link}</h5>
+        <button onClick={() => handleSaveBook(props.book.imdbID)}>Save</button>
+      </div>
+      <Button
+        variant="contained"
+        color="primary"
+        endIcon={<SearchIcon />}
+        onClick={handleFindBook}
+      >
+      
+        De-Bug
+      </Button>
     </>
   )
 }

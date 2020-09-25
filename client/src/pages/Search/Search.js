@@ -1,10 +1,12 @@
-import Typography from '@material-ui/core/Typography';
 import MediaContext from '../../utils/MediaContext'
 import React, {useState} from 'react'
 import Form from '../../components/Form'
+import BookCard from '../../components/BookCard'
+import API from '../../utils/API'
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search'
-import API from '../../utils/API'
 
 const Home = () => {
 
@@ -32,7 +34,7 @@ const Home = () => {
   }
 
   bookState.handleFindBook = event => {
-    console.log(bookState.books)
+    console.log(MediaContext)
   }
 
   //STUDY!
@@ -47,36 +49,34 @@ const Home = () => {
 
   return (
     <>
-    <hr />
+      <hr />
       <Typography variant="h6">
         Movie/TV Search
           </Typography>
-        <MediaContext.Provider value={bookState}>
-      <Form />
-    {
+
+      <form onSubmit={bookState.handleSearchBook}>
+        <TextField label="Search" name="search" variant="outlined" value={bookState.search} onChange={bookState.handleInputChange} />
+        <p>
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={<SearchIcon />}
+            onClick={bookState.handleSearchBook}
+          >
+            Send
+      </Button>
+
+        </p>
+
+      </form>
+     <hr />
+      {
       bookState.books.length > 0 ? (
         bookState.books.map(book => (
-          <div key={book.title}>
-            <img src={book.image} alt={book.title}/>
-            <h3>{book.title}</h3>
-            <h4>Type: {book.authors}</h4>
-            <h4>Year: {book.description}</h4>
-            <h5>Book ID: {book.link}</h5>
-            <button onClick={() => bookState.handleSaveBook(book.imdbID)}>Save</button>
-          </div>
+          <BookCard book={book} />
         ))
       ) : null
-
-    }
-        <Button
-          variant="contained"
-          color="primary"
-          endIcon={<SearchIcon />}
-          onClick={bookState.handleFindBook}
-        >
-          De-Bug
-      </Button>
-      </MediaContext.Provider>
+      }
     </>
   )
 }

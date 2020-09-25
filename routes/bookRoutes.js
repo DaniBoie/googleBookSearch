@@ -32,6 +32,4 @@ router.delete('/book/:id', (req, res) => {
     .catch(err => console.log(err))
 })
 
-//http://www.omdbapi.com/?apikey=trilogy&t=${search}
-
 module.exports = router
