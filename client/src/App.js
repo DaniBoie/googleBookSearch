@@ -1,9 +1,28 @@
-import React from 'react'
+import React from 'react';
+// IMPORT for links on page
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+// IMPORT for other pages on site
+import Navbar from './components/Navbar'
+import Search from './pages/Search'
+import Saved from './pages/Saved'
 
-const App = () => {
+function App() {
+
   return (
-    <h1>Hello World!</h1>
-  )
+    <>
+      <Router>
+        <div>
+          <Navbar />
+          <nav>
+            <Switch>
+              <Route exact path='/' component={Search}></Route>
+              <Route path='/' component={Saved}></Route>
+            </Switch>
+          </nav>
+        </div>
+      </Router>
+    </>
+  );
 }
 
-export default App
+export default App;
