@@ -15,12 +15,12 @@ const Saved = () => {
       })
   }
 
-  useEffect(() => {
-    API.getSavedBook()
-    .then(({data}) => {
-      setSavedState({...savedState, saved: data})
-    })
-  }, [])
+  // useEffect(() => {
+  //   API.getSavedBook()
+  //   .then(({data}) => {
+  //     setSavedState({...savedState, saved: data})
+  //   })
+  // }, [])
 
   return (
     <>

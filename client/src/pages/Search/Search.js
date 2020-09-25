@@ -7,34 +7,35 @@ import API from '../../utils/API'
 const Home = () => {
 
   // SETTING up media state and the data.
-  const [mediaState, setMediaState] = useState({
+  const [bookState, setbookState] = useState({
     search: '',
-    media: []
+    books: []
   })
 
   // HANDLING the inputs on the page.
-  mediaState.handleInputChange = event => {
-    setMediaState({...mediaState, [event.target.name]: event.target.value})
+  bookState.handleInputChange = event => {
+    setbookState({...bookState, [event.target.name]: event.target.value})
   }
 
   // HANDLING the search for media
-  mediaState.handleSearchOMDB = event => {
+  bookState.handleSearchBook = event => {
     event.preventDefault()
-    // CALLS api to get data from OMDB API
-    API.getBook(mediaState.search)
-    .then(({data}) => {
-      setMediaState({...mediaState, media: data, search: ''})
+    // CALLS api to get data from Book API
+    API.getBook(bookState.search)
+    .then((data) => {
+      setbookState({...bookState, books: data, search: ''})
+      console.log(data)
     })
     .catch(err => console.log(err))
   }
 
   //STUDY!
-  mediaState.handleSaveMedia = imdbID => {
-    const saveMedia = mediaState.media.filter(x => x.imdbID === imdbID)[0]
-    API.saveBook(saveMedia)
+  bookState.handleSaveMedia = imdbID => {
+    const saveBook = bookState.books.filter(x => x.imdbID === imdbID)[0]
+    API.saveBook(saveBook)
     .then(() => {
-      const media = mediaState.media.filter(x => x.imdbID !== imdbID)
-      setMediaState({ ...mediaState, media})
+      const books = bookState.books.filter(x => x.imdbID !== imdbID)
+      setbookState({ ...bookState, books})
     })
   }
 
@@ -44,21 +45,22 @@ const Home = () => {
       <Typography variant="h6">
         Movie/TV Search
           </Typography>
-        <MediaContext.Provider value={mediaState}>
+        <MediaContext.Provider value={bookState}>
       <Form />
     {
-      mediaState.media.length > 0 ? (
-        mediaState.media.map(media => (
-          <div key={media.imdbID}>
-            <img src={media.poster} alt={media.title}/>
-            <h3>{media.title}</h3>
-            <h4>Type: {media.type}</h4>
-            <h4>Year: {media.year}</h4>
-            <h5>OMDB ID: {media.imdbID}</h5>
-            <button onClick={() => mediaState.handleSaveMedia(media.imdbID)}>Save</button>
-          </div>
-        ))
-      ) : null
+      // bookState.books.length > 0 ? (
+      //   bookState.books.map(media => (
+      //     <div key={media.title}>
+      //       <img src={media.img} alt={media.title}/>
+      //       <h3>{media.title}</h3>
+      //       <h4>Type: {media.type}</h4>
+      //       <h4>Year: {media.year}</h4>
+      //       <h5>Book ID: {media.imdbID}</h5>
+      //       <button onClick={() => bookState.handleSaveMedia(media.imdbID)}>Save</button>
+      //     </div>
+      //   ))
+      // ) : null
+
     }
       </MediaContext.Provider>
     </>

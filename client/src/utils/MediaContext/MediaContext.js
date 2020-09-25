@@ -1,11 +1,11 @@
 import {createContext} from 'react'
 
-const MediaContext = createContext({
+const BookContext = createContext({
   search: '',
-  media: [],
+  books: [],
   handleInputChange: () => { },
-  handleSearchOMDB: () => { },
-  handleSaveMedia: () => { },
+  handleSearchBook: () => { },
+  handleSaveBook: () => { },
 })
 
-export default MediaContext
+export default BookContext

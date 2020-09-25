@@ -6,18 +6,18 @@ import SearchIcon from '@material-ui/icons/Search'
 
 const Form = () => {
 
-  const { search, handleInputChange, handleSearchOMDB} = useContext(MediaContext)
+  const { search, handleInputChange, handleSearchBook} = useContext(MediaContext)
 
   return(
 
-    <form onSubmit={handleSearchOMDB}>
+    <form onSubmit={handleSearchBook}>
       <TextField  label="Search" name="search" variant="outlined"  value={search} onChange={handleInputChange}/>
       <p>
       <Button
         variant="contained"
         color="primary"
         endIcon={<SearchIcon />}
-        onClick={handleSearchOMDB}
+        onClick={handleSearchBook}
       >
         Send
       </Button>
