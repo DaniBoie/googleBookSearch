@@ -2,6 +2,8 @@ import Typography from '@material-ui/core/Typography';
 import MediaContext from '../../utils/MediaContext'
 import React, {useState} from 'react'
 import Form from '../../components/Form'
+import Button from '@material-ui/core/Button';
+import SearchIcon from '@material-ui/icons/Search'
 import API from '../../utils/API'
 
 const Home = () => {
@@ -22,11 +24,15 @@ const Home = () => {
     event.preventDefault()
     // CALLS api to get data from Book API
     API.getBook(bookState.search)
-    .then((data) => {
+    .then(({data}) => {
       setbookState({...bookState, books: data, search: ''})
       console.log(data)
     })
     .catch(err => console.log(err))
+  }
+
+  bookState.handleFindBook = event => {
+    console.log(bookState.books)
   }
 
   //STUDY!
@@ -48,20 +54,28 @@ const Home = () => {
         <MediaContext.Provider value={bookState}>
       <Form />
     {
-      // bookState.books.length > 0 ? (
-      //   bookState.books.map(media => (
-      //     <div key={media.title}>
-      //       <img src={media.img} alt={media.title}/>
-      //       <h3>{media.title}</h3>
-      //       <h4>Type: {media.type}</h4>
-      //       <h4>Year: {media.year}</h4>
-      //       <h5>Book ID: {media.imdbID}</h5>
-      //       <button onClick={() => bookState.handleSaveMedia(media.imdbID)}>Save</button>
-      //     </div>
-      //   ))
-      // ) : null
+      bookState.books.length > 0 ? (
+        bookState.books.map(book => (
+          <div key={book.title}>
+            <img src={book.image} alt={book.title}/>
+            <h3>{book.title}</h3>
+            <h4>Type: {book.authors}</h4>
+            <h4>Year: {book.description}</h4>
+            <h5>Book ID: {book.link}</h5>
+            <button onClick={() => bookState.handleSaveBook(book.imdbID)}>Save</button>
+          </div>
+        ))
+      ) : null
 
     }
+        <Button
+          variant="contained"
+          color="primary"
+          endIcon={<SearchIcon />}
+          onClick={bookState.handleFindBook}
+        >
+          De-Bug
+      </Button>
       </MediaContext.Provider>
     </>
   )
